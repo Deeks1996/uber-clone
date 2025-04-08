@@ -13,15 +13,8 @@ import Link from "next/link";
 
 const Dashboard = () => {
   const { user } = useUser();
-  const rideId = useCurrentRideId(); 
   const searchParams = useSearchParams();
-
-  // Check if rideId exists before trying to destructure
-  if (!rideId) {
-    return <div>Loading or No Ride Available</div>;
-  }
-
-  // Get current rideId for the passenger using custom hook
+  
   const { rideId: fetchedRideId, loading } = useCurrentRideId(user?.id);
   const [isRideRequested, setIsRideRequested] = useState(false);
 
@@ -44,7 +37,7 @@ const Dashboard = () => {
       localStorage.removeItem("payment_cancel_notification");
     }
   }, [searchParams]);
-
+ 
   return (
     <div className="min-h-screen bg-blue-300">
       <Navbar />
@@ -53,15 +46,11 @@ const Dashboard = () => {
         {!isRideRequested && !fetchedRideId && !loading && <RideRequestForm />}
       </div>
 
-      {isRideRequested || fetchedRideId ? (
+      {(isRideRequested || fetchedRideId) && (
         <div className="p-4 space-y-3">
-        <Link href="/" className="bg-green-700 text-white hover:bg-green-600 px-5 py-1 rounded-xl"> Back </Link>
-        <PassengerLiveMap rideId={fetchedRideId} />
-
-        
+          <Link href="/" className="bg-green-700 text-white hover:bg-green-600 px-5 py-1 rounded-xl"> Back </Link>
+          <PassengerLiveMap rideId={fetchedRideId} />
         </div>
-      ) : (
-        <p></p>
       )}
 
       <ToastContainer position="top-right" autoClose={3000} />

@@ -38,51 +38,6 @@ const RideRequestForm = () => {
     { value: 'premium', label: 'Premium - ₹800 + ₹50/km' },
   ];
 
-  // const findNearestDriver = async (pickupCoords) => {
-  //   const driversSnapshot = await getDocs(
-  //     query(collection(db, 'drivers'), where('isAvailable', '==', true))
-  //   );
-  
-  //   let nearestDriver = null;
-  //   let minDistance = Infinity;
-  
-  //   driversSnapshot.forEach(docSnap => {
-  //     const driver = docSnap.data();
-  //     if (driver.location) {
-  //       const distance = getDistance(
-  //         { latitude: pickupCoords.lat, longitude: pickupCoords.lng },
-  //         { latitude: driver.location.lat, longitude: driver.location.lng }
-  //       );
-  //       if (distance < minDistance) {
-  //         minDistance = distance;
-  //         nearestDriver = { ...driver, id: docSnap.id, distance };
-  //       }
-  //     }
-  //   });
-  
-  //   return nearestDriver;
-  // };
-  
-  // Helper to calculate ETA using Google Maps API
-  const calculateETA = async (pickupCoords, driverCoords) => {
-    const directionsService = new google.maps.DirectionsService();
-    const result = await new Promise((resolve, reject) => {
-      directionsService.route(
-        {
-          origin: driverCoords,
-          destination: pickupCoords,
-          travelMode: google.maps.TravelMode.DRIVING,
-        },
-        (res, status) => {
-          if (status === 'OK') resolve(res);
-          else reject(status);
-        }
-      );
-    });
-  
-    return result.routes[0].legs[0].duration.text;
-  };
-
   useEffect(() => {
     if (pickupCoords && dropoffCoords) {
       calculateRoute();
@@ -185,14 +140,6 @@ const RideRequestForm = () => {
   }
 
     try {
-    //   const driver = await findNearestDriver(pickupCoords);
-
-    // if (!driver) {
-    //   toast.error("No drivers available nearby", { position: 'top-right', autoClose: 3000 });
-    //   return;
-    // }
-
-    // const eta = await calculateETA(pickupCoords, driver.location);
 
     const rideRef = await addDoc(collection(db, 'rideRequests'), {
         userId: user.id, 
@@ -204,32 +151,11 @@ const RideRequestForm = () => {
         pickupCoords, 
         dropoffCoords,
         status: "requested",
-        // assignedDriver: {
-        //   id: driver.id,
-        //   name: driver.name,
-        //   phone: driver.phone,
-        // },
-        // eta,
         createdAt: serverTimestamp(),
       });
 
-      // // Make driver unavailable
-      // await updateDoc(doc(db, 'drivers', driver.id), {
-      //   isAvailable: false,
-      // });
-  
-      // Create Stripe Checkout session via API
-    // 🔁 Redirect to Payment Page with query parameters
     router.push(`/payment?rideId=${rideRef.id}&price=${price}&userId=${user.id}`);
 
-      // toast.success('Ride Request Submitted! ',{position:'top-right',autoClose:2000});
-      // setPickupLocation('');
-      // setDropoffLocation('');
-      // setPickupCoords(null);
-      // setDropoffCoords(null);
-      // setSelectedPackage('');
-      // setPrice(0);
-      // setDirections(null);
     } catch (error) {
       toast.error('Error submitting ride request', {position:'top-right',autoClose:2000});
       console.error('Error submitting request:',error);
@@ -255,7 +181,7 @@ const RideRequestForm = () => {
               placeholder="Enter Pickup Location"
               value={pickupLocation}
               onChange={(e) => setPickupLocation(e.target.value)}
-              className="w-full pl-12 pr-3 py-3 border rounded bg-transparent text-white"  // Add padding on left side to accommodate the icon
+              className="w-full pl-12 pr-3 py-3 border rounded bg-transparent text-white" 
             />
           </Autocomplete>
         </div>
@@ -276,7 +202,6 @@ const RideRequestForm = () => {
           </Autocomplete>
         </div>
 
-        {/* Ride Package Selection */}
         <div className="form-group mb-4">
           <select
             value={selectedPackage}

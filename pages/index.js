@@ -49,7 +49,7 @@ export default function Home() {
       console.error("Error during role assignment:", error);
       alert("An error occurred while setting the role. Please try again.");
     } finally {
-      setLoading(false);  // Set loading to false once the request completes
+      setLoading(false);  
     }
   };
 
@@ -63,7 +63,7 @@ export default function Home() {
         ) : (
           <div className="flex flex-col absolute top-20 right-20 space-y-4 items-center border-2 rounded-xl p-8 bg-gray-700">
             <UserButton aftersignouturl="/" />
-            <p className="text-white text-lg">You're signed in!</p>
+            <p className="text-white text-lg">You&apos;re signed in!re signed in!</p>
 
             {!isRoleAssigned ? (
               <>
@@ -78,7 +78,7 @@ export default function Home() {
                 </select>
                 <button
                   onClick={handleRoleSubmit}
-                  disabled={loading}  // Disable the button while loading
+                  disabled={loading}  
                   className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-500 disabled:bg-gray-400"
                 >
                   {loading ? "Setting Role..." : "Go to Dashboard"}

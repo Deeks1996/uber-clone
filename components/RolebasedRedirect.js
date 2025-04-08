@@ -8,10 +8,10 @@ const RoleBasedRedirect = () => {
 
   useEffect(() => {
     if (isLoaded && user) {
-      const role = user.publicMetadata?.role; // Fetch role from Clerk metadata
+      const role = user.publicMetadata?.role; 
 
       if (!role) {
-        router.push("/complete-signup"); // Force role selection if missing
+        router.push("/complete-signup"); 
       } else if (role === "driver") {
         router.push("/driverDashboard");
       } else if (role === "user") {

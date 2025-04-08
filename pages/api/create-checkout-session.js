@@ -16,7 +16,6 @@ export default async function handler(req, res) {
   }
 
     try {
-      // Create a Checkout session
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: [
@@ -26,7 +25,7 @@ export default async function handler(req, res) {
               product_data: {
                 name: `Ride ${rideId}`,
               },
-              unit_amount: Math.round(price * 100),  // Convert price to cents
+              unit_amount: Math.round(price * 100),  
             },
             quantity: 1,
           },
@@ -34,21 +33,16 @@ export default async function handler(req, res) {
         mode: 'payment',
         success_url: `${process.env.BASE_URL}/payment-success?session_id={CHECKOUT_SESSION_ID}&rideRequestId=${rideId}`,
         cancel_url: `${process.env.BASE_URL}/payment-cancel`,
-        client_reference_id: rideId, // Optional: Can store the ride ID with the session
+        client_reference_id: rideId,
         metadata: {
           userId,
           rideId,
         },
       });
 
-      // Respond with the session ID
       return res.status(200).json({ sessionId: session.id });
     } catch (error) {
       console.error('Error creating Stripe checkout session:', error);
       return res.status(500).json({ error: 'Failed to create checkout session' });
     }
   } 
-// else {
-//     return res.status(405).json({ error: 'Method Not Allowed' });
-//   }
-// }

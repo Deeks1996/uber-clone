@@ -38,19 +38,19 @@ const DriverDashboard = () => {
   }, [user]);
 
   const updateRideStatus = async (rideId, newStatus) => {
-    // Ensure the user is logged in
+    
     if (!user) {
       toast.error("You must be logged in to update ride status.");
       return;
     }
 
     const rideRef = doc(db, "rideRequests", rideId);
-    const driverId = user.id; // Clerk's user ID
+    const driverId = user.id; 
 
     try {
       const updatedData = {
         status: newStatus,
-        driverId: driverId, // Store the driver's ID in the ride request
+        driverId: driverId, 
         updatedAt: serverTimestamp(),
       };
 

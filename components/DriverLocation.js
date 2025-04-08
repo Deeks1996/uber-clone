@@ -8,18 +8,15 @@ const DriverLocation = ({ driverId, rideId }) => {
 
     const updateLocation = (position) => {
       const { latitude, longitude } = position.coords;
-
-      // Create reference to the document we want to update (driverLocations/{driverId})
       const locationRef = doc(db, "driverLocations", driverId);
-
-      // Update location and associated rideId
+      
       updateDoc(locationRef, {
-        rideId: rideId, // Make sure the rideId is updated
+        rideId: rideId, 
         location: {
           lat: latitude,
           lng: longitude,
         },
-        updatedAt: serverTimestamp(), // Automatically timestamp when update occurs
+        updatedAt: serverTimestamp(), 
       })
         .then(() => {
           console.log("Location updated:", latitude, longitude);
@@ -36,13 +33,13 @@ const DriverLocation = ({ driverId, rideId }) => {
     // Get location every 10 seconds
     const interval = setInterval(() => {
       navigator.geolocation.getCurrentPosition(updateLocation, handleError);
-    }, 10000); // Updates location every 10 seconds
+    }, 10000); 
 
-    // Cleanup the interval when component unmounts
+    
     return () => clearInterval(interval);
   }, [driverId, rideId]);
 
-  return null; // This component doesn't render anything; it only updates Firestore
+  return null; 
 };
 
 export default DriverLocation;

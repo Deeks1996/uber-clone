@@ -31,7 +31,7 @@ const PassengerLiveMap = ({ rideId }) => {
         const data = rideSnap.data();
         if (data.driverId) {
           console.log("Driver ID fetched:", data.driverId);
-          setDriverId(data.driverId); // Set driverId from rideRequest
+          setDriverId(data.driverId); 
         } else {
           console.log("No driverId found in ride request.");
         }

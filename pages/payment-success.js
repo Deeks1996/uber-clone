@@ -12,7 +12,7 @@ export default function PaymentSuccess() {
 
   useEffect(() => {
     if (rideRequestId) {
-      localStorage.setItem("recentRideId", rideRequestId); // Save rideRequestId in localStorage
+      localStorage.setItem("recentRideId", rideRequestId); 
       localStorage.setItem("payment_success_notification", "true");
 
       const updatePaymentStatus = async () => {
@@ -34,7 +34,6 @@ export default function PaymentSuccess() {
           if (prev === 1) {
             clearInterval(interval);
 
-            // Redirect using window.location.href
             window.location.href = `/user-dashboard?payment=success&rideId=${rideRequestId}`;
           }
           return prev - 1;

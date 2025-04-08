@@ -10,12 +10,12 @@ const withRoleProtection = (Component, requiredRole) => {
 
     useEffect(() => {
       if (isLoaded) {
-        const userRole = user?.publicMetadata?.role; // Get role from Clerk metadata
+        const userRole = user?.publicMetadata?.role; 
         
         if (userRole === requiredRole) {
-          setIsAuthorized(true); // Allow access if role matches
+          setIsAuthorized(true); 
         } else {
-          router.replace("/unauthorized"); // Redirect to Unauthorized page
+          router.replace("/unauthorized");
         }
       }
     }, [user, isLoaded, router]);

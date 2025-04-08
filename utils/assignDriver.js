@@ -32,12 +32,9 @@ export const assignNearestDriver = async (riderId, pickupLocation) => {
   });
 
   if (nearestDriver) {
-    // Update the rider's request with the assigned driver
-    // This can be done by setting the driver's ID in the rider's document
     const riderRef = doc(db, "rides", riderId);
     await setDoc(riderRef, { driverId: nearestDriver, status: "assigned" }, { merge: true });
 
-    // Optionally, update the driver's status to "busy"
     const driverRef = doc(db, "drivers", nearestDriver);
     await setDoc(driverRef, { status: "busy" }, { merge: true });
   } else {

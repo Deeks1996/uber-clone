@@ -11,7 +11,6 @@ const Payment = () => {
   const { rideId, price, userId } = router.query;
 
   useEffect(() => {
-    // Debug: Log the data once router.query is available
     if (rideId && price && userId) {
       console.log("Fetched from URL:", { rideId, price, userId });
     }
