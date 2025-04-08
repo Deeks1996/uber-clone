@@ -28,7 +28,7 @@ const DriverDashboardPage = () => {
       {rideId ? (
         <DriverLocation driverId={user?.id} rideId={rideId} />
       ) : (
-        <p className="text-gray-600 text-center mt-4">No active ride assigned.</p>
+        <p></p>
       )}
     </div>
   );

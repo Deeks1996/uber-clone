@@ -1,5 +1,7 @@
+import { useEffect,useState } from "react";
 import { UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import { FaCar } from "react-icons/fa6";

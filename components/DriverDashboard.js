@@ -63,8 +63,6 @@ const DriverDashboard = () => {
       }
 
       await updateDoc(rideRef, updatedData);
-
-      toast.success(`Ride ${newStatus}!`, { position: 'top-right', autoClose: 2000 });
     } catch (error) {
       console.error("Error updating ride status:", error);
       toast.error("Failed to update ride status.");

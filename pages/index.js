@@ -63,7 +63,7 @@ export default function Home() {
         ) : (
           <div className="flex flex-col absolute top-20 right-20 space-y-4 items-center border-2 rounded-xl p-8 bg-gray-700">
             <UserButton aftersignouturl="/" />
-            <p className="text-white text-lg">You&apos;re signed in!re signed in!</p>
+            <p className="text-white text-lg">You&apos;re signed in!</p>
 
             {!isRoleAssigned ? (
               <>
