@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Standard",
+    "baseFare": 200,
+    "pricePerKm": 20,
+    "features": ["Hatchback", "Max 4 passengers", "Basic comfort"],
+    "imageUrl": "https://thumbs.dreamstime.com/b/white-compact-four-door-car-small-isolated-background-72761848.jpg"
+  },
+  {
+    "name": "Economy",
+    "baseFare": 400,
+    "pricePerKm": 30,
+    "features": ["Luxury Sedan", "Max 4 passengers", "AC + Wi-Fi", "Bottled Water"],
+    "imageUrl": "https://img.freepik.com/premium-photo/passenger-car-isolated-white-background_887481-1124.jpg"
+  },
+  {
+    "name": "Premium",
+    "baseFare": 800,
+    "pricePerKm": 50,
+    "features": ["Spacious SUV", "Max 6 passengers", "Luggage Friendly", "Premium Comfort"],
+    "imageUrl": "https://www.genesis.com/content/dam/genesis-p2/worldwide/assets/models/gv80/24fl/color-view/genesis-ww-gv80-facelift-color-glossy-uyuni-white-small.png"
+  }
+]
