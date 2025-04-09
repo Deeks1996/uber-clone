@@ -113,7 +113,7 @@ const RideRequestForm = () => {
         break;
     }
   
-    const calculatedPrice = baseFare + distance * perKmRate;
+    const calculatedPrice = Math.round(baseFare + distance * perKmRate);
     setPrice(calculatedPrice);
   };
 
@@ -219,7 +219,7 @@ const RideRequestForm = () => {
 
         <div className="mb-4 text-white">
         {price > 0 && selectedPackage && (
-          <p>Estimated Price: ₹{price}</p>
+          <p>Price: ₹{price}</p>
         )}
         </div>
 

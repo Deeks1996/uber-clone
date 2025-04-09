@@ -1,13 +1,13 @@
 import { useEffect,useState } from "react";
 import { UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import { FaCar } from "react-icons/fa6";
 import { PiPackageFill } from "react-icons/pi";
 import { FaUser } from "react-icons/fa";
 import { FaHistory } from "react-icons/fa";
+import { RiFeedbackFill } from "react-icons/ri";
 
 const Navbar = ({ requestedCount }) => {
   const pathname = usePathname();
@@ -51,6 +51,17 @@ const Navbar = ({ requestedCount }) => {
             >
               <FaHistory className="me-1"/>
               Ride History
+            </Link>
+
+            <Link
+              href="/feedbacks"
+              className={clsx(
+                "flex items-center gap-1",
+                isActive("/ridehistory") && "text-white bg-black px-2 py-1 rounded hover:bg-red-400"
+              )}
+            >
+              <RiFeedbackFill className="me-1"/>
+               Feedbacks
             </Link>
 
           </>
