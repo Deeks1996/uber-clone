@@ -46,7 +46,7 @@ const Navbar = ({ requestedCount }) => {
               href="/driver-ridehistory"
               className={clsx(
                 "flex items-center gap-1",
-                isActive("/ridehistory") && "text-white bg-black px-2 py-1 rounded hover:bg-red-400"
+                isActive("/driver-ridehistory") && "text-white bg-black px-2 py-1 rounded hover:bg-red-400"
               )}
             >
               <FaHistory className="me-1"/>
@@ -57,7 +57,7 @@ const Navbar = ({ requestedCount }) => {
               href="/feedbacks"
               className={clsx(
                 "flex items-center gap-1",
-                isActive("/ridehistory") && "text-white bg-black px-2 py-1 rounded hover:bg-red-400"
+                isActive("/feedbacks") && "text-white bg-black px-2 py-1 rounded hover:bg-red-400"
               )}
             >
               <RiFeedbackFill className="me-1"/>
