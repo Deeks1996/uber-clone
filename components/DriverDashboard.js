@@ -13,6 +13,7 @@ import Navbar from "@/components/Navbar";
 import { ToastContainer, toast } from "react-toastify";
 import { useUser } from "@clerk/nextjs";
 import DriverLocation from "./DriverLocation";
+import { FaCarAlt } from "react-icons/fa";
 
 const DriverDashboard = () => {
   const [rideRequests, setRideRequests] = useState([]);
@@ -123,7 +124,7 @@ const DriverDashboard = () => {
                 className="bg-slate-200 p-4 rounded-xl shadow-sm border-black border-2 m-1"
               >
                 <p className="text-lg font-semibold text-gray-800">
-                  🚖 Ride Request
+                  <FaCarAlt className="flex text-yellow-500" /> Ride Request
                 </p>
                 <p className="text-gray-700">
                   <strong>Request Time:</strong>{" "}
