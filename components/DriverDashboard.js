@@ -123,8 +123,8 @@ const DriverDashboard = () => {
                 key={ride.id}
                 className="bg-slate-200 p-4 rounded-xl shadow-sm border-black border-2 m-1"
               >
-                <p className="text-lg font-semibold text-gray-800">
-                  <FaCarAlt className="flex text-yellow-500" /> Ride Request
+                <p className="text-lg flex font-semibold text-blue-900 items-center">
+                   <FaCarAlt className="text-red-700 me-2 text-xl"/> Ride Request
                 </p>
                 <p className="text-gray-700">
                   <strong>Request Time:</strong>{" "}
