@@ -166,8 +166,9 @@ const RideRequestForm = () => {
   if (!isLoaded) return <div>Loading...</div>;
 
   return (
-    <div className="flex space-x-4">
-      {!showPayment ? (<div className="p-6 bg-gray-800 rounded-lg shadow-md w-1/3 max-w-lg mx-auto">
+  <div className="flex flex-col lg:flex-row lg:space-x-4 space-y-6 lg:space-y-0 p-4">
+    {!showPayment ? (
+      <div className="p-6 bg-gray-800 rounded-lg shadow-md w-full lg:w-1/3 max-w-lg mx-auto">
         <h2 className="text-2xl font-bold mb-4 text-white">Request a Ride</h2>
 
         <div className="form-group mb-4 relative">
@@ -181,7 +182,7 @@ const RideRequestForm = () => {
               placeholder="Enter Pickup Location"
               value={pickupLocation}
               onChange={(e) => setPickupLocation(e.target.value)}
-              className="w-full pl-12 pr-3 py-3 border rounded bg-transparent text-white" 
+              className="w-full pl-12 pr-3 py-3 border rounded bg-transparent text-white"
             />
           </Autocomplete>
         </div>
@@ -197,7 +198,7 @@ const RideRequestForm = () => {
               placeholder="Enter Drop-off Location"
               value={dropoffLocation}
               onChange={(e) => setDropoffLocation(e.target.value)}
-               className="w-full pl-12 pr-3 py-3 border rounded bg-transparent text-white"
+              className="w-full pl-12 pr-3 py-3 border rounded bg-transparent text-white"
             />
           </Autocomplete>
         </div>
@@ -218,16 +219,16 @@ const RideRequestForm = () => {
         </div>
 
         <div className="mb-4 text-white">
-        {price > 0 && selectedPackage && (
-          <p>Price: ₹{price}</p>
-        )}
+          {price > 0 && selectedPackage && (
+            <p>Price: ₹{price}</p>
+          )}
         </div>
 
         <button onClick={handleRideRequest} className="w-full bg-green-500 text-white p-2 rounded-lg hover:bg-green-700">
           Submit Ride Request
         </button>
       </div>
-) : (
+    ) : (
       <Payment
         user={user}
         pickupLocation={pickupLocation}
@@ -238,24 +239,23 @@ const RideRequestForm = () => {
         price={price}
         setShowPayment={setShowPayment}
       />
-      )}
-      
-      <div className="w-3/4">
+    )}
+
+    <div className="w-full lg:w-2/3 h-[400px] lg:h-auto">
       <GoogleMap
-        mapContainerStyle={{ height: "500px", width: "100%" }}
+        mapContainerStyle={{ width: "100%", height: "100%" }}
         zoom={12}
         center={pickupCoords || { lat: 20.5937, lng: 78.9629 }}
       >
         {pickupCoords && <Marker position={pickupCoords} />}
         {dropoffCoords && <Marker position={dropoffCoords} />}
-        {directions && 
-          <DirectionsRenderer directions={directions} />
-        }
+        {directions && <DirectionsRenderer directions={directions} />}
       </GoogleMap>
-      </div>
-      <ToastContainer />
     </div>
-  );
+
+    <ToastContainer />
+  </div>
+);
 };
 
 export default RideRequestForm;
