@@ -1,10 +1,19 @@
 import { useState, useEffect } from "react";
-import { db } from "../lib/firebase"; 
-import { serverTimestamp, collection, query, where, onSnapshot, doc, updateDoc } from "firebase/firestore";
-import Navbar from '@/components/Navbar';
-import { ToastContainer,toast } from "react-toastify";
-import { useUser } from '@clerk/nextjs';
+import { db } from "../lib/firebase";
+import {
+  serverTimestamp,
+  collection,
+  query,
+  where,
+  onSnapshot,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
+import Navbar from "@/components/Navbar";
+import { ToastContainer, toast } from "react-toastify";
+import { useUser } from "@clerk/nextjs";
 import DriverLocation from "./DriverLocation";
+import { FaCarAlt } from "react-icons/fa";
 
 const DriverDashboard = () => {
   const [rideRequests, setRideRequests] = useState([]);
@@ -12,19 +21,24 @@ const DriverDashboard = () => {
   const { user } = useUser();
 
   useEffect(() => {
-    if(!user) return;
+    if (!user) return;
 
     const q = query(
       collection(db, "rideRequests"),
       where("status", "in", ["requested", "accepted", "in_progress"]),
-      where("isPaid", "==", true),
+      where("isPaid", "==", true)
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const requests = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+      const requests = snapshot.docs
+        .map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }))
+        .filter((ride) => {
+          const declined = ride?.declinedDrivers || [];
+          return !declined.includes(user.id);
+        });
 
       setRideRequests(requests);
 
@@ -38,19 +52,18 @@ const DriverDashboard = () => {
   }, [user]);
 
   const updateRideStatus = async (rideId, newStatus) => {
-    
     if (!user) {
       toast.error("You must be logged in to update ride status.");
       return;
     }
 
     const rideRef = doc(db, "rideRequests", rideId);
-    const driverId = user.id; 
+    const driverId = user.id;
 
     try {
       const updatedData = {
         status: newStatus,
-        driverId: driverId, 
+        driverId: driverId,
         updatedAt: serverTimestamp(),
       };
 
@@ -69,44 +82,97 @@ const DriverDashboard = () => {
     }
   };
 
+  const declineRideRequest = async (rideId) => {
+    if (!user) return;
+
+    const rideRef = doc(db, "rideRequests", rideId);
+    const driverId = user.id;
+
+    try {
+      const currentRide = rideRequests.find((r) => r.id === rideId);
+      const declinedDrivers = currentRide?.declinedDrivers || [];
+
+      await updateDoc(rideRef, {
+        declinedDrivers: [...declinedDrivers, driverId],
+        updatedAt: serverTimestamp(),
+      });
+
+    } catch (error) {
+      console.error("Error declining ride:", error);
+      toast.error("Failed to decline ride.");
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar requestedCount={requestedCount} />
-      {user && <DriverLocation driverId={user.id} />} 
+      {user && <DriverLocation driverId={user.id} />}
       <div className="flex flex-col items-center p-4 ">
-        <h2 className="text-xl font-medium text-blue-900 mb-2">Available Ride Requests</h2>
+        <h2 className="text-xl font-medium text-blue-900 mb-2">
+          Available Ride Requests
+        </h2>
 
         {rideRequests.length === 0 ? (
-          <p className="text-red-500 bg-slate-800 p-2 rounded">No ride requests available</p>
+          <p className="text-red-700 p-2 rounded">
+            No ride requests available
+          </p>
         ) : (
           <div className="grid grid-cols-3">
             {rideRequests.map((ride) => (
-              <div key={ride.id} className="bg-slate-200 p-4 rounded-xl shadow-sm border-black border-2 m-1">
-                <p className="text-lg font-semibold text-gray-800">🚖 Ride Request </p>
+              <div
+                key={ride.id}
+                className="bg-slate-200 p-4 rounded-xl shadow-sm border-black border-2 m-1"
+              >
+                <p className="text-lg flex font-semibold text-blue-900 items-center">
+                   <FaCarAlt className="text-red-700 me-2 text-xl"/> Ride Request
+                </p>
                 <p className="text-gray-700">
                   <strong>Request Time:</strong>{" "}
                   {ride.createdAt?.toDate().toLocaleString() || "N/A"}
                 </p>
-                <p className="text-gray-700"><strong>Name:</strong> {ride.name}</p>
-                <p className="text-gray-700"><strong>Pickup:</strong> {ride.pickupLocation}</p>
-                <p className="text-gray-700"><strong>Destination:</strong> {ride.dropoffLocation}</p>
-                <p className="text-gray-700"><strong>Price:</strong> {ride.price}</p>
-                <p className="text-gray-700"><strong>Status:</strong> 
-                  <span className={`ml-2 px-2  text-white rounded 
-                    ${ride.status === "accepted" ? "bg-yellow-500" : 
-                      ride.status === "in_progress" ? "bg-blue-500" :
-                      "bg-gray-600"}`}>
+                <p className="text-gray-700">
+                  <strong>Name:</strong> {ride.name}
+                </p>
+                <p className="text-gray-700">
+                  <strong>Pickup:</strong> {ride.pickupLocation}
+                </p>
+                <p className="text-gray-700">
+                  <strong>Destination:</strong> {ride.dropoffLocation}
+                </p>
+                <p className="text-gray-700">
+                  <strong>Price:</strong> {ride.price}
+                </p>
+                <p className="text-gray-700">
+                  <strong>Status:</strong>
+                  <span
+                    className={`ml-2 px-2 text-white rounded 
+                    ${
+                      ride.status === "accepted"
+                        ? "bg-yellow-500"
+                        : ride.status === "in_progress"
+                        ? "bg-blue-500"
+                        : "bg-gray-600"
+                    }`}
+                  >
                     {ride.status}
                   </span>
                 </p>
 
                 {ride.status === "requested" && (
-                  <button
-                    onClick={() => updateRideStatus(ride.id, "accepted")}
-                    className="mt-3 px-4 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-                  >
-                    Accept Ride
-                  </button>
+                  <div className="flex gap-2 mt-3">
+                    <button
+                      onClick={() => updateRideStatus(ride.id, "accepted")}
+                      className="px-4 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+                    >
+                      Accept Ride
+                    </button>
+                    <button
+                      onClick={() => declineRideRequest(ride.id)}
+                      className="px-4 py-1 bg-red-600 text-white rounded-md hover:bg-red-700 transition"
+                    >
+                      Decline
+                    </button>
+                  </div>
                 )}
 
                 {ride.status === "accepted" && (

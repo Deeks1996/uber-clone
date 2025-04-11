@@ -17,7 +17,6 @@ export default function PaymentSuccess() {
 
     const updatePaymentStatus = async () => {
       try {
-        // Step 1: Fetch Checkout Session from Stripe
         const res = await axios.post("/api/get-session-details", {
           session_id,
         });
@@ -29,7 +28,6 @@ export default function PaymentSuccess() {
           return;
         }
 
-        // Step 2: Update Firestore rideRequests
         const rideRef = doc(db, "rideRequests", rideRequestId);
 
         await updateDoc(rideRef, {
@@ -37,8 +35,6 @@ export default function PaymentSuccess() {
           status: "requested",
           paymentId: payment_intent, 
         });
-
-        console.log("Firestore updated with paymentId:", paymentId);
 
         localStorage.setItem("payment_success_notification", "true");
       } catch (error) {
@@ -48,7 +44,6 @@ export default function PaymentSuccess() {
 
     updatePaymentStatus();
 
-    // Countdown redirect
     const interval = setInterval(() => {
       setCountdown((prev) => {
         if (prev === 1) {

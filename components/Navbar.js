@@ -8,6 +8,8 @@ import { PiPackageFill } from "react-icons/pi";
 import { FaUser } from "react-icons/fa";
 import { FaHistory } from "react-icons/fa";
 import { RiFeedbackFill } from "react-icons/ri";
+import { GrTransaction } from "react-icons/gr";
+import { FaPhone } from "react-icons/fa";
 
 const Navbar = ({ requestedCount }) => {
   const pathname = usePathname();
@@ -27,7 +29,7 @@ const Navbar = ({ requestedCount }) => {
             href="/driver-dashboard"
             className={clsx(
               "relative inline-flex items-center gap-1 px-2 py-1 rounded ",
-              isActive("/driver-dashboard") ? "text-white bg-black hover:bg-red-400" : "text-white"
+              isActive("/driver-dashboard") ? "text-white bg-black" : "text-white"
             )}
           >
             <div className="flex items-center gap-1 relative">
@@ -46,7 +48,7 @@ const Navbar = ({ requestedCount }) => {
               href="/driver-ridehistory"
               className={clsx(
                 "flex items-center gap-1",
-                isActive("/ridehistory") && "text-white bg-black px-2 py-1 rounded hover:bg-red-400"
+                isActive("/ridehistory") && "text-white bg-black px-2 py-1 rounded"
               )}
             >
               <FaHistory className="me-1"/>
@@ -57,7 +59,7 @@ const Navbar = ({ requestedCount }) => {
               href="/feedbacks"
               className={clsx(
                 "flex items-center gap-1",
-                isActive("/ridehistory") && "text-white bg-black px-2 py-1 rounded hover:bg-red-400"
+                isActive("/ridehistory") && "text-white bg-black px-2 py-1 rounded"
               )}
             >
               <RiFeedbackFill className="me-1"/>
@@ -72,7 +74,7 @@ const Navbar = ({ requestedCount }) => {
                 href="/user-dashboard"
                 className={clsx(
                   "flex items-center gap-1", 
-                  isActive("/user-dashboard") && "text-white bg-black px-2 py-1 rounded hover:bg-red-400"
+                  isActive("/user-dashboard") && "text-white bg-black px-2 py-1 rounded"
                 )}
               >
                 <FaCar className="me-1"/>
@@ -83,7 +85,7 @@ const Navbar = ({ requestedCount }) => {
               href="/packages"
               className={clsx(
                 "flex items-center gap-1",
-                isActive("/packages") && "text-white bg-black px-2 py-1 rounded hover:bg-red-400"
+                isActive("/packages") && "text-white bg-black px-2 py-1 rounded"
               )}
             >
               <PiPackageFill className="me-1"/>
@@ -94,11 +96,22 @@ const Navbar = ({ requestedCount }) => {
               href="/ridehistory"
               className={clsx(
                 "flex items-center gap-1",
-                isActive("/ridehistory") && "text-white bg-black px-2 py-1 rounded hover:bg-red-400"
+                isActive("/ridehistory") && "text-white bg-black px-2 py-1 rounded"
               )}
             >
               <FaHistory className="me-1"/>
               Ride History
+            </Link>
+
+            <Link
+              href="/transactions"
+              className={clsx(
+                "flex items-center gap-1",
+                isActive("/transactions") && "text-white bg-black px-2 py-1 rounded"
+              )}
+            >
+              <GrTransaction className="me-1"/>
+              Transactions
             </Link>
           </>
         )}
@@ -107,12 +120,24 @@ const Navbar = ({ requestedCount }) => {
           href="/profile"
           className={clsx(
             "flex items-center gap-1",
-            isActive("/profile") && "text-white bg-black px-2 py-1 rounded hover:bg-red-400"
+            isActive("/profile") && "text-white bg-black px-2 py-1 rounded"
           )}
         >
           <FaUser/>
           Profile
         </Link>
+
+        <Link
+          href="/contact"
+          className={clsx(
+            "flex items-center gap-1",
+            isActive("/contact") && "text-white bg-black px-2 py-1 rounded"
+          )}
+        >
+          <FaPhone/>
+          Contact Us
+        </Link>
+
       </div>
 
       <div className="flex flex-row space-x-2">

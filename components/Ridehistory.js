@@ -30,26 +30,43 @@ const RideHistory = () => {
   };
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4 text-red-800">Ride History</h2>
-      {rides.length === 0 ? (
-        <p className="text-red-600">No rides found.</p>
-      ) : (
-        <ul className="space-y-4">
-          {rides.map(ride => (
-            <li key={ride.id} className="p-4 bg-gray-800 rounded-lg shadow-md text-white">
-              <p><strong>Pickup:</strong> {ride.pickupLocation}</p>
-              <p><strong>Dropoff:</strong> {ride.dropoffLocation}</p>
-              <p><strong>Package:</strong> {ride.selectedPackage}</p>
-              <p><strong>Price:</strong> ₹{ride.price}</p>
-              <p><strong>Status:</strong> {ride.status}</p>
-              <p><strong>Requested At:</strong> {ride.createdAt?.toDate().toLocaleString()}</p>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
+  <div className="p-2">
+    <h2 className="text-2xl font-bold mb-4 text-red-800 text-center">Ride History</h2>
+
+    {rides.length === 0 ? (
+      <p className="text-red-600 text-center">No rides found.</p>
+    ) : (
+      <div className="overflow-x-auto rounded-lg shadow-md">
+        <table className="min-w-full bg-white border border-gray-300 text-sm">
+          <thead className="bg-gray-800 text-white">
+            <tr>
+              <th className="py-2 px-4 border-b">Pickup</th>
+              <th className="py-2 px-4 border-b">Dropoff</th>
+              <th className="py-2 px-4 border-b">Package</th>
+              <th className="py-2 px-4 border-b">Price</th>
+              <th className="py-2 px-4 border-b">Status</th>
+              <th className="py-2 px-4 border-b">Requested At</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rides.map((ride) => (
+              <tr key={ride.id} className=" hover:bg-gray-100">
+                <td className="py-2 px-4 border-b">{ride.pickupLocation}</td>
+                <td className="py-2 px-4 border-b">{ride.dropoffLocation}</td>
+                <td className="py-2 px-4 border-b">{ride.selectedPackage}</td>
+                <td className="py-2 px-4 border-b">₹{ride.price}</td>
+                <td className="py-2 px-4 border-b capitalize">{ride.status}</td>
+                <td className="py-2 px-6 border-b">
+                  {ride.createdAt?.toDate().toLocaleString()}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )}
+  </div>
+);
 };
 
 export default RideHistory;
