@@ -30,11 +30,11 @@ const RideHistory = () => {
   };
 
   return (
-  <div className="p-6">
-    <h2 className="text-2xl font-bold mb-4 text-red-800">Ride History</h2>
+  <div className="p-2">
+    <h2 className="text-2xl font-bold mb-4 text-red-800 text-center">Ride History</h2>
 
     {rides.length === 0 ? (
-      <p className="text-red-600">No rides found.</p>
+      <p className="text-red-600 text-center">No rides found.</p>
     ) : (
       <div className="overflow-x-auto rounded-lg shadow-md">
         <table className="min-w-full bg-white border border-gray-300 text-sm">
@@ -50,13 +50,13 @@ const RideHistory = () => {
           </thead>
           <tbody>
             {rides.map((ride) => (
-              <tr key={ride.id} className="text-center hover:bg-gray-100">
+              <tr key={ride.id} className=" hover:bg-gray-100">
                 <td className="py-2 px-4 border-b">{ride.pickupLocation}</td>
                 <td className="py-2 px-4 border-b">{ride.dropoffLocation}</td>
                 <td className="py-2 px-4 border-b">{ride.selectedPackage}</td>
                 <td className="py-2 px-4 border-b">₹{ride.price}</td>
                 <td className="py-2 px-4 border-b capitalize">{ride.status}</td>
-                <td className="py-2 px-4 border-b">
+                <td className="py-2 px-6 border-b">
                   {ride.createdAt?.toDate().toLocaleString()}
                 </td>
               </tr>
