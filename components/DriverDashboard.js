@@ -59,11 +59,13 @@ const DriverDashboard = () => {
 
     const rideRef = doc(db, "rideRequests", rideId);
     const driverId = user.id;
+    const driver_name = user.fullName;
 
     try {
       const updatedData = {
         status: newStatus,
         driverId: driverId,
+        driverName:driver_name,
         updatedAt: serverTimestamp(),
       };
 
@@ -127,7 +129,7 @@ const DriverDashboard = () => {
                    <FaCarAlt className="text-red-700 me-2 text-xl"/> Ride Request
                 </p>
                 <p className="text-gray-700">
-                  <strong>Request Time:</strong>
+                  <strong>Request Time:</strong>{" "}
                   {ride.createdAt?.toDate().toLocaleString() || "N/A"}
                 </p>
                 <p className="text-gray-700">
