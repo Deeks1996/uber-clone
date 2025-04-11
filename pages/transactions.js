@@ -79,6 +79,7 @@ const Transactions = () => {
                 <th className="px-4 py-2 text-left">Ride</th>
                 <th className="px-4 py-2 text-left">Amount</th>
                 <th className="px-4 py-2 text-left">Date</th>
+                <th className="px-4 py-2 text-left">Status</th>
                 <th className="px-4 py-2 text-left">Action</th>
               </tr>
             </thead>
@@ -88,6 +89,13 @@ const Transactions = () => {
                   <td className="px-4 py-2">{txn.pickupLocation} <FaArrowDownLong/> {txn.dropoffLocation}</td>
                   <td className="px-4 py-2">Rs. {txn.price}</td>
                   <td className="px-4 py-2">{txn.createdAt?.toDate().toLocaleString() || "N/A"}</td>
+                  <td className="px-4 py-2">
+                    {txn.isRefunded ? (
+                      <span className="text-red-500 font-semibold">Refund</span>
+                    ) : (
+                      <span className="text-green-600 font-semibold">Paid</span>
+                    )}
+                  </td>
                   <td className="px-4 py-2">
                     <button
                       className="bg-blue-500 text-white px-4 py-2 rounded"
