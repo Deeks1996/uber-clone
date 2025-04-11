@@ -113,7 +113,7 @@ const DriverDashboard = () => {
         </h2>
 
         {rideRequests.length === 0 ? (
-          <p className="text-red-500 bg-slate-800 p-2 rounded">
+          <p className="text-red-700 p-2 rounded">
             No ride requests available
           </p>
         ) : (
