@@ -12,7 +12,7 @@ const Packages = () => {
 
   return (
     <div className="p-6 bg-gray-800 overflow-hidden rounded-lg ">
-      <h2 className="text-2xl font-bold mb-6 text-gray-100 ">Ride Packages</h2>
+      <h2 className="text-2xl font-bold mb-6 text-gray-100 "> Ride Package</h2>
       <div className="grid md:grid-cols-3 gap-6 ">
         {packages.map((pkg, index) => (
           <motion.div
