@@ -57,7 +57,7 @@ const Dashboard = () => {
       if (rideData?.status === "accepted" && !hasAccepted.current) {
         setRideStatus("accepted");
         hasAccepted.current = true;
-        toast.success("Driver has accepted your ride!");
+        toast.success(`Driver-${rideData?.driverName} has accepted your ride!`);
       }
 
       if (rideData?.status === "completed") {
