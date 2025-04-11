@@ -166,42 +166,32 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-blue-300 flex flex-col">
+    <div className="min-h-screen bg-blue-300">
       <Navbar />
 
-      <div className="p-4 sm:p-6 lg:p-8">
-        {!isRideRequested && !fetchedRideId && !loading && (
-          <div className="max-w-xl mx-auto">
-            <RideRequestForm />
-          </div>
-        )}
+      <div className="p-5">
+        {!isRideRequested && !fetchedRideId && !loading && <RideRequestForm />}
       </div>
 
-      {rideStatus && (
-        <div className="px-4 sm:px-6 lg:px-8">
-          <RideProgressTracker currentStatus={rideStatus} />
-        </div>
-      )}
+      {rideStatus && <RideProgressTracker currentStatus={rideStatus} />}
 
-      {rideStatus === "requested" && (
-        <div className="p-4 sm:p-6 lg:p-8 text-center">
-          <p className="text-lg sm:text-xl font-semibold text-slate-700 mb-4">
-            Driver not yet assigned. Thank you for your patience!
-          </p>
+      {rideStatus === "requested" ? (
+        <div className="p-4 space-y-10 text-center text-2xl font-semibold text-slate-700 mt-10">
+          <p>Driver not yet assigned. Thank you for your patience!</p>
           <button
-            onClick={() => handleCancelRide(fetchedRideId, paymentId)}
-            className="bg-red-600 text-white text-sm sm:text-base px-4 py-2 rounded-xl hover:bg-red-800 transition duration-300"
+           onClick={() => handleCancelRide(fetchedRideId, paymentId)}
+            className="bg-red-600 text-white px-4 py-1 rounded-xl hover:bg-red-800 text-xl"
           >
             Cancel Ride
           </button>
         </div>
-      )}
+      ) : null}
 
-      {rideStatus === "accepted" && fetchedRideId && rideStatus !== "completed" && (
-        <div className="px-4 sm:px-6 lg:px-8 pb-8">
+      {(rideStatus === "accepted" && fetchedRideId) && rideStatus !== "completed" ? (
+        <div className="p-4 space-y-3">
           <PassengerLiveMap rideId={fetchedRideId} />
         </div>
-      )}
+      ) : null}
 
       <ReviewModal
         isOpen={showReviewModal}
@@ -215,3 +205,5 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+
