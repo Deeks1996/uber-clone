@@ -9,10 +9,10 @@ import { useUser } from "@clerk/nextjs";
 import PassengerLiveMap from "@/components/PassengerLiveMap";
 import RideProgressTracker from "../components/RideProgressTracker";
 import { db } from "../lib/firebase";
-import { doc, onSnapshot, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, onSnapshot, getDoc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
 import ReviewModal from "../components/ReviewModal";
-import axios from 'axios';
+import axios from "axios";
 
 const Dashboard = () => {
   const { user } = useUser();
@@ -34,7 +34,7 @@ const Dashboard = () => {
 
       const notifySuccess = localStorage.getItem("payment_success_notification");
       if (notifySuccess) {
-        toast.success("Ride request submitted successfully!",{autoClose:2000});
+        toast.success("Ride request submitted successfully!", { autoClose: 2000 });
         localStorage.removeItem("payment_success_notification");
       }
     }
@@ -82,7 +82,7 @@ const Dashboard = () => {
         }
       }
     };
-  
+
     fetchPaymentId();
   }, [fetchedRideId]);
 
@@ -121,12 +121,11 @@ const Dashboard = () => {
         toast.success("Thanks for your feedback!");
         setShowReviewModal(false);
 
-       setTimeout(() => {
+        setTimeout(() => {
           router.push("/user-dashboard").then(() => {
-            window.location.reload(); 
-          }) 
+            window.location.reload();
+          });
         }, 5000);
-
       } else {
         toast.error("Ride not found.");
       }
@@ -136,29 +135,27 @@ const Dashboard = () => {
     }
   };
 
-
   const handleCancelRide = async (rideId, paymentId) => {
     if (!paymentId) {
       toast.error("No payment ID found for this ride.");
       return;
     }
-  
+
     try {
       const res = await axios.post("/api/cancel-ride", {
         rideId,
         paymentId,
       });
-  
+
       if (res.data.success) {
         toast.success("Ride cancelled and refund initiated");
         setRideStatus("cancelled");
 
         setTimeout(() => {
           router.push("/user-dashboard").then(() => {
-            window.location.reload(); 
-          }) 
+            window.location.reload();
+          });
         }, 5000);
-
       } else {
         toast.error(res.data.error || "Failed to cancel ride.");
       }
@@ -167,34 +164,44 @@ const Dashboard = () => {
       toast.error("Something went wrong. Please try again.");
     }
   };
-  
+
   return (
-    <div className="min-h-screen bg-blue-300">
+    <div className="min-h-screen bg-blue-300 flex flex-col">
       <Navbar />
 
-      <div className="p-5">
-        {!isRideRequested && !fetchedRideId && !loading && <RideRequestForm />}
+      <div className="p-4 sm:p-6 lg:p-8">
+        {!isRideRequested && !fetchedRideId && !loading && (
+          <div className="max-w-xl mx-auto">
+            <RideRequestForm />
+          </div>
+        )}
       </div>
 
-      {rideStatus && <RideProgressTracker currentStatus={rideStatus} />}
+      {rideStatus && (
+        <div className="px-4 sm:px-6 lg:px-8">
+          <RideProgressTracker currentStatus={rideStatus} />
+        </div>
+      )}
 
-      {rideStatus === "requested" ? (
-        <div className="p-4 space-y-10 text-center text-2xl font-semibold text-slate-700 mt-10">
-          <p>Driver not yet assigned. Thank you for your patience!</p>
+      {rideStatus === "requested" && (
+        <div className="p-4 sm:p-6 lg:p-8 text-center">
+          <p className="text-lg sm:text-xl font-semibold text-slate-700 mb-4">
+            Driver not yet assigned. Thank you for your patience!
+          </p>
           <button
-           onClick={() => handleCancelRide(fetchedRideId, paymentId)}
-            className="bg-red-600 text-white px-4 py-1 rounded-xl hover:bg-red-800 text-xl"
+            onClick={() => handleCancelRide(fetchedRideId, paymentId)}
+            className="bg-red-600 text-white text-sm sm:text-base px-4 py-2 rounded-xl hover:bg-red-800 transition duration-300"
           >
             Cancel Ride
           </button>
         </div>
-      ) : null}
+      )}
 
-      {(rideStatus === "accepted" && fetchedRideId) && rideStatus !== "completed" ? (
-        <div className="p-4 space-y-3">
+      {rideStatus === "accepted" && fetchedRideId && rideStatus !== "completed" && (
+        <div className="px-4 sm:px-6 lg:px-8 pb-8">
           <PassengerLiveMap rideId={fetchedRideId} />
         </div>
-      ) : null}
+      )}
 
       <ReviewModal
         isOpen={showReviewModal}
