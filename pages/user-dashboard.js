@@ -121,9 +121,11 @@ const Dashboard = () => {
         toast.success("Thanks for your feedback!");
         setShowReviewModal(false);
 
-        router.push("/user-dashboard").then(() => {
-          window.location.reload();
-        });
+       setTimeout(() => {
+          router.push("/user-dashboard").then(() => {
+            window.location.reload(); 
+          }) 
+        }, 5000);
 
       } else {
         toast.error("Ride not found.");
