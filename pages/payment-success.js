@@ -48,7 +48,7 @@ export default function PaymentSuccess() {
       setCountdown((prev) => {
         if (prev === 1) {
           clearInterval(interval);
-          window.location.href = `/user-dashboard?payment=success&rideId=${rideRequestId}`;
+          window.location.href = `/rider/dashboard?payment=success&rideId=${rideRequestId}`;
         }
         return prev - 1;
       });
@@ -58,7 +58,7 @@ export default function PaymentSuccess() {
   }, [session_id, rideRequestId]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-blue-300">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-blue-200">
       <h1 className="text-2xl font-bold text-green-800 flex items-center">
         Payment Successful
         <IoCheckmarkDoneCircleSharp className="ml-2 text-green-600" />

@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 const ContactPage = () => {
 
   return (
-    <div className="min-h-screen bg-blue-300">
+    <div className="min-h-screen bg-blue-200">
       <Navbar />
 
       <div className="max-w-3xl mx-auto p-6 rounded-lg shadow-xl bg-blue-200 mt-6">

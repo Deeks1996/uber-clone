@@ -19,7 +19,6 @@ const ProgressBar = ({ currentStatus }) => {
   return (
     <div className="flex justify-center py-10">
       <div className="w-2/3 md:w-1/2 lg:w-1/3">
-        {/* Step Labels */}
         <div className="flex justify-between mb-4">
           {steps.map((step, index) => (
             <div key={step} className="text-center">
@@ -34,7 +33,6 @@ const ProgressBar = ({ currentStatus }) => {
           ))}
         </div>
 
-        {/* Progress Bar */}
         <div className="h-2 w-full bg-gray-300 rounded-full relative">
           <div
             className={`h-full rounded-full`}

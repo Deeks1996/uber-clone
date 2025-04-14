@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useLoadScript, GoogleMap, Marker, Autocomplete, DirectionsRenderer } from '@react-google-maps/api';
 import { db } from "../lib/firebase"; 
 import { useUser } from "@clerk/nextjs"; 
-import { addDoc, collection, getDocs, query, where, doc, updateDoc, serverTimestamp }  from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { ToastContainer, toast } from 'react-toastify';
 import { useRouter } from 'next/navigation'; 
 import Payment from './Payment';
@@ -140,7 +140,6 @@ const RideRequestForm = () => {
   }
 
     try {
-
     const rideRef = await addDoc(collection(db, 'rideRequests'), {
         userId: user.id, 
         name: user.firstName,
@@ -166,92 +165,91 @@ const RideRequestForm = () => {
   if (!isLoaded) return <div>Loading...</div>;
 
   return (
-    <div className="flex space-x-4">
-      {!showPayment ? (<div className="p-6 bg-gray-800 rounded-lg shadow-md w-1/3 max-w-lg mx-auto">
-        <h2 className="text-2xl font-bold mb-4 text-white">Request a Ride</h2>
+    <div className="container mx-auto px-4 flex flex-col md:flex-row gap-4">
+      {!showPayment ? (
+        <div className="p-6 bg-gray-800 rounded-lg shadow-md w-full md:w-1/3">
+          <h2 className="text-2xl font-bold mb-4 text-white">Request a Ride</h2>
 
-        <div className="form-group mb-4 relative">
-          <FaMapMarkerAlt className='absolute left-3 top-1/2 transform -translate-y-1/2 text-red-500 text-xl' />
-          <Autocomplete
-            onLoad={(autocomplete) => (pickupRef.current = autocomplete)}
-            onPlaceChanged={() => handlePlaceSelect(pickupRef, setPickupLocation, setPickupCoords)}
-          >
-            <input
-              type="text"
-              placeholder="Enter Pickup Location"
-              value={pickupLocation}
-              onChange={(e) => setPickupLocation(e.target.value)}
-              className="w-full pl-12 pr-3 py-3 border rounded bg-transparent text-white" 
-            />
-          </Autocomplete>
+          <div className="form-group mb-4 relative">
+            <FaMapMarkerAlt className='absolute left-3 top-1/2 transform -translate-y-1/2 text-red-500 text-xl' />
+            <Autocomplete
+              onLoad={(autocomplete) => (pickupRef.current = autocomplete)}
+              onPlaceChanged={() => handlePlaceSelect(pickupRef, setPickupLocation, setPickupCoords)}
+            >
+              <input
+                type="text"
+                placeholder="Enter Pickup Location"
+                value={pickupLocation}
+                onChange={(e) => setPickupLocation(e.target.value)}
+                className="w-full pl-12 pr-3 py-3 border rounded bg-transparent text-white" 
+              />
+            </Autocomplete>
+          </div>
+
+          <div className="form-group mb-4 relative">
+            <FaMapMarkerAlt className='absolute left-3 top-1/2 transform -translate-y-1/2 text-red-500 text-xl' />
+            <Autocomplete
+              onLoad={(autocomplete) => (dropoffRef.current = autocomplete)}
+              onPlaceChanged={() => handlePlaceSelect(dropoffRef, setDropoffLocation, setDropoffCoords)}
+            >
+              <input
+                type="text"
+                placeholder="Enter Drop-off Location"
+                value={dropoffLocation}
+                onChange={(e) => setDropoffLocation(e.target.value)}
+                className="w-full pl-12 pr-3 py-3 border rounded bg-transparent text-white"
+              />
+            </Autocomplete>
+          </div>
+
+          <div className="form-group mb-4">
+            <select
+              value={selectedPackage}
+              onChange={handlePackageSelection}
+              className="w-full p-3 border rounded bg-transparent text-white"
+            >
+              <option value="" className="text-black">Select Ride Package</option>
+              {packageOptions.map((pkg) => (
+                <option key={pkg.value} value={pkg.value} className="text-black">
+                  {pkg.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="mb-4 text-white">
+            {price > 0 && selectedPackage && (
+              <p>Price: ₹{price}</p>
+            )}
+          </div>
+
+          <button onClick={handleRideRequest} className="w-full bg-green-500 text-white p-2 rounded-lg hover:bg-green-700">
+            Submit Ride Request
+          </button>
         </div>
-
-        <div className="form-group mb-4 relative">
-          <FaMapMarkerAlt className='absolute left-3 top-1/2 transform -translate-y-1/2 text-red-500 text-xl' />
-          <Autocomplete
-            onLoad={(autocomplete) => (dropoffRef.current = autocomplete)}
-            onPlaceChanged={() => handlePlaceSelect(dropoffRef, setDropoffLocation, setDropoffCoords)}
-          >
-            <input
-              type="text"
-              placeholder="Enter Drop-off Location"
-              value={dropoffLocation}
-              onChange={(e) => setDropoffLocation(e.target.value)}
-               className="w-full pl-12 pr-3 py-3 border rounded bg-transparent text-white"
-            />
-          </Autocomplete>
-        </div>
-
-        <div className="form-group mb-4">
-          <select
-            value={selectedPackage}
-            onChange={handlePackageSelection}
-            className="w-full p-3 border rounded bg-transparent text-white"
-          >
-            <option value="" className="text-black">Select Ride Package</option>
-            {packageOptions.map((pkg) => (
-              <option key={pkg.value} value={pkg.value} className="text-black">
-                {pkg.label}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="mb-4 text-white">
-        {price > 0 && selectedPackage && (
-          <p>Price: ₹{price}</p>
-        )}
-        </div>
-
-        <button onClick={handleRideRequest} className="w-full bg-green-500 text-white p-2 rounded-lg hover:bg-green-700">
-          Submit Ride Request
-        </button>
-      </div>
-) : (
-      <Payment
-        user={user}
-        pickupLocation={pickupLocation}
-        dropoffLocation={dropoffLocation}
-        pickupCoords={pickupCoords}
-        dropoffCoords={dropoffCoords}
-        selectedPackage={selectedPackage}
-        price={price}
-        setShowPayment={setShowPayment}
-      />
+      ) : (
+        <Payment
+          user={user}
+          pickupLocation={pickupLocation}
+          dropoffLocation={dropoffLocation}
+          pickupCoords={pickupCoords}
+          dropoffCoords={dropoffCoords}
+          selectedPackage={selectedPackage}
+          price={price}
+          setShowPayment={setShowPayment}
+        />
       )}
-      
-      <div className="w-3/4">
-      <GoogleMap
-        mapContainerStyle={{ height: "500px", width: "100%" }}
-        zoom={12}
-        center={pickupCoords || { lat: 20.5937, lng: 78.9629 }}
-      >
-        {pickupCoords && <Marker position={pickupCoords} />}
-        {dropoffCoords && <Marker position={dropoffCoords} />}
-        {directions && 
-          <DirectionsRenderer directions={directions} />
-        }
-      </GoogleMap>
+
+      <div className="w-full md:w-2/3">
+        <GoogleMap
+          mapContainerStyle={{ height: "500px", width: "100%" }}
+          zoom={12}
+          center={pickupCoords || { lat: 20.5937, lng: 78.9629 }}
+        >
+          {pickupCoords && <Marker position={pickupCoords} />}
+          {dropoffCoords && <Marker position={dropoffCoords} />}
+          {directions && <DirectionsRenderer directions={directions} />}
+        </GoogleMap>
       </div>
       <ToastContainer />
     </div>

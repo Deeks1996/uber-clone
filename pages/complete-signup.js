@@ -6,13 +6,12 @@ const CompleteSignUp = () => {
   const { user, isLoaded } = useUser();
   const { getToken } = useAuth();
   const router = useRouter();
-  const [role, setRole] = useState("user"); // Default role
+  const [role, setRole] = useState("user"); 
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!isLoaded) return;
 
-    // Redirect if user already has a role
     if (user?.publicMetadata?.role) {
       router.push("/");
     }
@@ -24,7 +23,6 @@ const CompleteSignUp = () => {
     setLoading(true);
 
     try {
-      // Update the user's role in Clerk's public metadata
       await fetch("/api/set-role", {
         method: "POST",
         headers: {
@@ -34,7 +32,7 @@ const CompleteSignUp = () => {
         body: JSON.stringify({ role }),
       });
 
-      router.push("/"); // Redirect home after setting role
+      router.push("/"); 
     } catch (error) {
       console.error("Error setting role:", error);
     } finally {

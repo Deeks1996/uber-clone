@@ -57,8 +57,8 @@ const Payment = () => {
   };
 
   return (
-    <div className='flex flex-row justify-center items-center space-x-3 mt-72'>
-      <Link href="/user-dashboard" className='bg-blue-400 text-black py-2 px-5 hover:bg-blue-700 rounded-xl font-semibold flex items-center gap-1'> <FaAnglesLeft /> Back </Link>
+    <div className='flex flex-row justify-center items-center space-x-3 mt-72 '>
+      <Link href="/rider/dashboard" className='bg-blue-400 text-black py-2 px-5 hover:bg-blue-600 rounded-xl font-semibold flex items-center gap-1'> <FaAnglesLeft /> Back </Link>
 
       <button onClick={handleCheckout} disabled={isLoading || !rideId} className='bg-green-400 text-black p-2 hover:bg-green-700 rounded-xl font-semibold flex items-center gap-1'>
         {isLoading ? 'Processing...' : 'Proceed to Payment'}

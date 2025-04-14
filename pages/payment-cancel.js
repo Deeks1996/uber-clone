@@ -12,7 +12,7 @@ export default function PaymentCancel() {
       setCountdown((prev) => {
         if (prev === 1) {
           clearInterval(interval);
-          window.location.href = "/user-dashboard";
+          window.location.href = "/rider/dashboard";
         }
         return prev - 1;
       });
@@ -22,7 +22,7 @@ export default function PaymentCancel() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-blue-300">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-blue-200">
       <h1 className="text-2xl font-bold text-red-600">Payment Cancelled</h1>
       <p className="mt-4">
         Your payment has been cancelled. Redirecting to dashboard in{" "}

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
-import { db } from "../lib/firebase";
+import { db } from "../../lib/firebase";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
 import { Star } from "lucide-react"; 
 
 const DriverFeedbackPage = () => {
@@ -46,7 +46,7 @@ const DriverFeedbackPage = () => {
   }, [user?.id]);
 
   return (
-    <div className="min-h-screen bg-blue-300">
+    <div className="min-h-screen bg-blue-200">
       <Navbar />
 
       <div className="max-w-3xl mx-auto p-6">

@@ -15,6 +15,9 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
+  console.log("Stripe Key:", process.env.STRIPE_SECRET_KEY);
+  console.log("Base URL:", process.env.BASE_URL);
+
     try {
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],

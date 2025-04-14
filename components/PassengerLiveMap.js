@@ -44,9 +44,11 @@ const PassengerLiveMap = ({ rideId }) => {
   }, [rideId]);
 
   useEffect(() => {
+    console.log("Driver ID:",driverId);
     if (!driverId) return;
 
     const locationRef = doc(db, "driverLocations", driverId);
+
     const unsubscribe = onSnapshot(locationRef, (snapshot) => {
       const data = snapshot.data();
       if (data?.location) {
